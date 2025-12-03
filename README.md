@@ -56,10 +56,10 @@ graph TD
     end
 
     subgraph Backend_API
-        ChatAPI[/api/chat]
-        IngestAPI[/api/rag-ingest]
-        DisputeAPI[/api/disputes]
-        ExtractAPI[/api/extract-dispute-details]
+        ChatAPI["/api/chat"]
+        IngestAPI["/api/rag-ingest"]
+        DisputeAPI["/api/disputes"]
+        ExtractAPI["/api/extract-dispute-details"]
     end
 
     subgraph Data_Layer
@@ -76,21 +76,25 @@ graph TD
     ChatUI -->|2. Send Message| ChatAPI
     ChatAPI -->|3. Generate Embedding| Gemini
     ChatAPI -->|4. Retrieve Context| Pinecone
-    Pinecone -- Relevant Chunks --> ChatAPI
-    ChatAPI -->|5. Generate Answer (with Context)| Gemini
-    Gemini -- Answer --> ChatAPI
+    Pinecone -->|Relevant Chunks| ChatAPI
+    ChatAPI -->|5. Generate Answer with Context| Gemini
+    Gemini -->|Answer| ChatAPI
     ChatAPI -->|6. Response| ChatUI
 
     %% Dispute Flow
     User -->|7. Raise Dispute| ChatUI
     ChatUI -->|8. Request Extraction| ExtractAPI
     ExtractAPI -->|9. Analyze History| Gemini
-    Gemini -- Extracted Fields --> ExtractAPI
-    ExtractAPI -- JSON Data --> ChatUI
+    Gemini -->|Extracted Fields| ExtractAPI
+    ExtractAPI -->|JSON Data| ChatUI
     ChatUI -->|10. Submit Dispute| DisputeAPI
     DisputeAPI -->|11. Save Ticket| MongoDB
-    MongoDB -- Updates --> Dashboard
+    MongoDB -->|Updates| Dashboard
+
 ```
+### Made on Eraser.io
+<img width="4316" height="3171" alt="image" src="https://github.com/user-attachments/assets/4b2be9e8-6142-49d7-907e-ffa678dab484" />
+
 
 ## 📂 File Structure
 
