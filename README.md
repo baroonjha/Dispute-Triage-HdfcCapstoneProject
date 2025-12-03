@@ -5,7 +5,12 @@
 ## 🚀 Project Overview
 This project is an intelligent **Dispute Triage and Resolution System** designed to streamline the customer support process for banking and financial services. It leverages **Generative AI (Google Gemini)** and **RAG (Retrieval-Augmented Generation)** to provide instant, accurate answers to customer queries and automate the dispute logging process.
 
-# Note: This project is assuming access to only autherozed company employee and user based on certain specific authentication(RBAC of any company like IAM  group in AWS)
+# Note: This project is assuming access to only authorized company employee and user based on certain specific authentication(RBAC of any company like IAM  group in AWS)
+
+
+## ⏳ Pending Task
+*   **Solution logic**: Explain solution logic clearly.
+*   **Video**: Create a video of the complete project explaining :- Thinking approach ,architecture to development.
 
 ## ❓ The Problem
 *   **High Volume**: Support teams are overwhelmed with repetitive queries.
@@ -15,7 +20,6 @@ This project is an intelligent **Dispute Triage and Resolution System** designed
 
 ## 💡 The Solution
 We implemented a **Next.js** web application that combines a customer-facing AI chatbot with an admin dashboard.
-*   **Triage_Logic** : Pending
 *   **AI Chatbot**: Uses RAG to answer policy questions instantly using uploaded documents.
 *   **Automated Triage**: If the user is unhappy, the AI extracts dispute details (Amount, Category, Priority) from the chat history and pre-fills a dispute form.
 *   **Admin Dashboard**: A centralized view for agents to manage, filter, and resolve disputes.
