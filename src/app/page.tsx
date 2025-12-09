@@ -25,7 +25,7 @@ export default function Home() {
             href="/portal"
             className="text-sm font-semibold leading-6 text-slate-900"
           >
-            Customer Portal <span aria-hidden="true">→</span>
+            Check Status <span aria-hidden="true">→</span>
           </Link>
         </div>
       </div>

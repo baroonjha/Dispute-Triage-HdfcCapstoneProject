@@ -8,8 +8,8 @@ import clsx from 'clsx';
 const navItems = [
     { name: 'Admin Dashboard', href: '/dashboard', icon: LayoutDashboard },
     { name: 'Knowledge Base', href: '/dashboard/knowledge-base', icon: BookOpen },
-    { name: 'Customer Portal', href: '/portal', icon: UserCircle },
-    { name: 'AI Assistant', href: '/chatbot', icon: MessageSquareText },
+    { name: 'Dispute Status', href: '/portal', icon: UserCircle },
+    { name: 'Dispute Assistant', href: '/chatbot', icon: MessageSquareText },
 ];
 
 export default function Sidebar() {

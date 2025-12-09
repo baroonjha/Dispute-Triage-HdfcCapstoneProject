@@ -8,10 +8,6 @@ This project is an intelligent **Dispute Triage and Resolution System** designed
 # Note: This project is assuming access to only authorized company employee and user based on certain specific authentication(RBAC of any company like IAM  group in AWS)
 
 
-## ⏳ Pending Task
-*   **Solution logic**: Explain solution logic clearly.
-*   **Video**: Create a video of the complete project explaining :- Thinking approach ,architecture to development.
-
 ## ❓ The Problem
 *   **High Volume**: Support teams are overwhelmed with repetitive queries.
 *   **Slow Response**: Manual triage and data entry lead to delayed resolution times.
@@ -20,9 +16,15 @@ This project is an intelligent **Dispute Triage and Resolution System** designed
 
 ## 💡 The Solution
 We implemented a **Next.js** web application that combines a customer-facing AI chatbot with an admin dashboard.
-*   **AI Chatbot**: Uses RAG to answer policy questions instantly using uploaded documents.
+*   **AI Chatbot**: Uses RAG to answer policy questions instantly using uploaded documents and create dispute tickets automatically by taking data from the conversation.
 *   **Automated Triage**: If the user is unhappy, the AI extracts dispute details (Amount, Category, Priority) from the chat history and pre-fills a dispute form.
 *   **Admin Dashboard**: A centralized view for agents to manage, filter, and resolve disputes.
+
+## Future Enhancements
+*   **Slack Integration**: SLA breached cases will be sent to the Slack channel.
+*   **Reporting & Analytics Dashboard**: To provide insights into dispute volume, resolution times, and agent performance trends.
+*   **Integration with CRM/Core Banking Systems**: For seamless data flow and real-time dispute status updates.
+
 
 ## 🛠️ Tech Stack
 *   **Frontend & Backend**: [Next.js 15](https://nextjs.org/) (React, TypeScript)
@@ -92,7 +94,7 @@ graph TD
     MongoDB -->|Updates| Dashboard
 
 ```
-### Made on Eraser.io
+### Sequence + System Interaction Diagram
 <img width="4316" height="3171" alt="image" src="https://github.com/user-attachments/assets/4b2be9e8-6142-49d7-907e-ffa678dab484" />
 
 
