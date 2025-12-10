@@ -1,6 +1,5 @@
 # Dispute Triage & Resolution System
 
-# This project is still under development
 
 ## 🚀 Project Overview
 This project is an intelligent **Dispute Triage and Resolution System** designed to streamline the customer support process for banking and financial services. It leverages **Generative AI (Google Gemini)** and **RAG (Retrieval-Augmented Generation)** to provide instant, accurate answers to customer queries and automate the dispute logging process.
@@ -15,6 +14,8 @@ This project is an intelligent **Dispute Triage and Resolution System** designed
 *   **Manual Effort**: Extracting dispute details and logging tickets is time-consuming.
 
 ## 💡 The Solution
+
+* **Please read Solution.md file for more details about the solution strategy**
 We implemented a **Next.js** web application that combines a customer-facing AI chatbot with an admin dashboard.
 *   **AI Chatbot**: Uses RAG to answer policy questions instantly using uploaded documents and create dispute tickets automatically by taking data from the conversation.
 *   **Automated Triage**: If the user is unhappy, the AI extracts dispute details (Amount, Category, Priority) from the chat history and pre-fills a dispute form.
@@ -115,6 +116,10 @@ graph TD
 │   └── models/                 # Mongoose Schemas (Dispute.ts)
 └── README.md                   # Project documentation
 ```
+
+
+## Deployed link (Chatbot may not work if gemini api limit exhaust)
+ Live Demo : [Dispute_Triage](https://dispute-triage-hdfc-capstone-projec.vercel.app)
 
 ## 🚀 Getting Started
 
