@@ -116,7 +116,16 @@ graph TD
 │   └── models/                 # Mongoose Schemas (Dispute.ts)
 └── README.md                   # Project documentation
 ```
-
+ 
+## Working
+ * **Step1**: Bank official will upload the dispute realted documents (PDF/TXT) in the knowledge base section.
+ * **Step2**:Bank offical will upload the dispute excel file in the dashboard and on uploadin the dispute will be sorted based on the priority,stage and amount according to my solution logic.
+ * **Step3**:SLA breached cases will be shown in the dashboard as a alert at the top.
+ * **Step4**: User will ask the dispute related questions in the chat interface.
+ * **Step5**: Chatbot will answer the questions using RAG and provide the answer.
+ * **Step6**: If the user is unhappy, the chatbot will extract the dispute details (Amount, Category, Priority) from the chat history and pre-fill a dispute form.
+ * **Step7**: User will submit the dispute form and the dispute will be created in the database.
+ * **Step8**: Admin will view the dispute in the admin dashboard and can resolve the dispute.
 
 ## Deployed link (Chatbot may not work if gemini api limit exhaust)
  Live Demo : [Dispute_Triage](https://dispute-triage-hdfc-capstone-projec.vercel.app)
