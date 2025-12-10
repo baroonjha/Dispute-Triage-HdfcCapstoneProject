@@ -16,7 +16,7 @@ This project is an intelligent **Dispute Triage and Resolution System** designed
 ## 💡 The Solution
 
 * **Please read Solution.md file for more details about the solution strategy**
-We implemented a **Next.js** web application that combines a customer-facing AI chatbot with an admin dashboard.
+Implemented a **Next.js** web application that combines a customer-facing AI chatbot with an admin dashboard.
 *   **AI Chatbot**: Uses RAG to answer policy questions instantly using uploaded documents and create dispute tickets automatically by taking data from the conversation.
 *   **Automated Triage**: If the user is unhappy, the AI extracts dispute details (Amount, Category, Priority) from the chat history and pre-fills a dispute form.
 *   **Admin Dashboard**: A centralized view for agents to manage, filter, and resolve disputes.
