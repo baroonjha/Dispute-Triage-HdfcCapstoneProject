@@ -26,7 +26,7 @@ export default function ChatbotPage() {
     const [disputeDetails, setDisputeDetails] = useState({
         amount: '',
         issueCategory: '',
-        channel: '',
+        channel: 'Chatbot',
         priority: 'L2',
         description: '',
     });
@@ -44,6 +44,8 @@ export default function ChatbotPage() {
     useEffect(() => {
         scrollToBottom();
     }, [messages]);
+
+    const [extractionError, setExtractionError] = useState(false);
 
     const handleSend = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -82,8 +84,11 @@ export default function ChatbotPage() {
             console.error('Chat error:', error);
             setMessages((prev) => [
                 ...prev,
-                { role: 'assistant', content: 'Sorry, I am having trouble connecting to the server.' },
+                { role: 'assistant', content: '⚠️ System is experiencing high traffic or API limits. AI features are temporarily unavailable. Please use the "Raise Dispute" button below to proceed manually.' },
             ]);
+            // Force end chat to show options
+            setIsChatEnded(true);
+            setFeedbackStatus('unhappy'); // Skip straight to "unhappy" flow which shows Raise Dispute
         } finally {
             setLoading(false);
         }
@@ -107,12 +112,16 @@ export default function ChatbotPage() {
 
     const handleRaiseDispute = async () => {
         setIsExtracting(true);
+        setExtractionError(false);
         try {
             const res = await fetch('/api/extract-dispute-details', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ history: messages }),
             });
+
+            if (!res.ok) throw new Error('Extraction failed');
+
             const data = await res.json();
             setDisputeDetails({
                 amount: data.amount || '',
@@ -124,7 +133,15 @@ export default function ChatbotPage() {
             setShowDisputeForm(true);
         } catch (error) {
             console.error('Error extracting details:', error);
-            // Show form with empty details
+            setExtractionError(true);
+            // Show form with empty details (but valid defaults) and error flag
+            setDisputeDetails({
+                amount: '',
+                issueCategory: '',
+                channel: 'Chatbot',
+                priority: 'L2',
+                description: '',
+            });
             setShowDisputeForm(true);
         } finally {
             setIsExtracting(false);
@@ -167,7 +184,7 @@ export default function ChatbotPage() {
                         </div>
                         <div>
                             <h2 className="text-lg font-semibold text-slate-900">AI Assistant</h2>
-                            <p className="text-sm text-slate-500">Powered by Gemini Pro</p>
+                            <p className="text-sm text-slate-500">Powered by Gemini</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
@@ -304,12 +321,12 @@ export default function ChatbotPage() {
                     </div>
                     <h3 className="text-lg font-semibold text-green-800">Dispute Registered Successfully</h3>
                     <p className="text-green-700">Your Ticket ID is: <span className="font-mono font-bold">{ticketId}</span></p>
-                    <button
+                    {/* <button
                         onClick={() => router.push('/dashboard')}
                         className="mt-4 text-sm font-medium text-green-700 underline"
                     >
                         Go to Dashboard
-                    </button>
+                    </button> */}
                 </div>
             )}
 
@@ -346,6 +363,15 @@ export default function ChatbotPage() {
                                 <X className="h-5 w-5" />
                             </button>
                         </div>
+                        {extractionError && (
+                            <div className="mb-4 rounded-lg bg-yellow-50 p-3 text-sm text-yellow-800 border border-yellow-200">
+                                <p className="font-medium flex items-center gap-2">
+                                    <AlertTriangle className="h-4 w-4" />
+                                    Auto-fill failed
+                                </p>
+                                <p className="mt-1">System is busy. Please fill in the details manually.</p>
+                            </div>
+                        )}
                         <form onSubmit={handleSubmitDispute} className="space-y-4">
                             <div>
                                 <label className="mb-1 block text-sm font-medium text-slate-700">Amount</label>
@@ -358,7 +384,7 @@ export default function ChatbotPage() {
                                 />
                             </div>
                             <div>
-                                <label className="mb-1 block text-sm font-medium text-slate-700">Issue Category</label>
+                                <label className="mb-1 block text-sm font-medium text-slate-700">Describe your issue</label>
                                 <input
                                     type="text"
                                     required

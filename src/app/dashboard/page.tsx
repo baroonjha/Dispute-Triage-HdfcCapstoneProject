@@ -181,17 +181,17 @@ export default function DashboardPage() {
                         </div>
                         <div className="flex items-center gap-2">
                             <div className="relative">
-                                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                                <Search className="absolute left-3 placeholder:text-gray-500 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                                 <input
                                     type="text"
                                     placeholder="Search tickets..."
-                                    className="h-10 w-64 rounded-lg border border-slate-300 pl-10 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                    className="h-10 w-64 text-black rounded-lg border border-slate-300 pl-10 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                 />
                             </div>
                             <select
-                                className="h-10 rounded-lg border border-slate-300 bg-white px-3 text-sm focus:border-blue-500 focus:outline-none"
+                                className="h-10 rounded-lg text-gray-500 border border-slate-300 bg-white px-3 text-sm focus:border-blue-500 focus:outline-none"
                                 value={filterStatus}
                                 onChange={(e) => setFilterStatus(e.target.value)}
                             >
@@ -200,7 +200,7 @@ export default function DashboardPage() {
                                 <option value="Resolved">Resolved</option>
                             </select>
                             <select
-                                className="h-10 rounded-lg border border-slate-300 bg-white px-3 text-sm focus:border-blue-500 focus:outline-none"
+                                className="h-10 rounded-lg text-gray-500 border border-slate-300 bg-white px-3 text-sm focus:border-blue-500 focus:outline-none"
                                 value={filterPriority}
                                 onChange={(e) => setFilterPriority(e.target.value)}
                             >
@@ -249,7 +249,7 @@ export default function DashboardPage() {
                         <tbody className="divide-y divide-slate-200 bg-white">
                             {loading ? (
                                 <tr>
-                                    <td colSpan={7} className="px-6 py-4 text-center">
+                                    <td colSpan={7} className="px-6 py-4 text-gray-500 text-center">
                                         Loading...
                                     </td>
                                 </tr>
@@ -257,7 +257,7 @@ export default function DashboardPage() {
                                 <tr>
                                     <td colSpan={7} className="px-6 py-12 text-center text-slate-500">
                                         <div className="flex flex-col items-center justify-center">
-                                            <p className="mb-4 text-lg">No disputes found.</p>
+                                            <p className="mb-4 text-lg text-gray-500">No disputes found.</p>
                                             <button
                                                 onClick={async () => {
                                                     setLoading(true);
