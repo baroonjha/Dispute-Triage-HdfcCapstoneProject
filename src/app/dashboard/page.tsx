@@ -106,8 +106,8 @@ export default function DashboardPage() {
     return (
         <div className="space-y-8">
             <div>
-                <h1 className="text-3xl font-bold text-slate-900">Admin Dashboard</h1>
-                <p className="mt-2 text-slate-500">
+                <h1 className="text-3xl font-bold text-gray">Admin Dashboard</h1>
+                <p className="mt-2 text-slate-500 text-gray-600">
                     Overview of dispute triage and resolution status.
                 </p>
             </div>
@@ -213,15 +213,18 @@ export default function DashboardPage() {
                         </div>
                     </div>
                 </div>
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto max-h-[75vh] overflow-y-auto relative">
                     <table className="min-w-full divide-y divide-slate-200">
-                        <thead className="bg-slate-50">
+                        <thead className="bg-slate-50 sticky top-0 z-10 shadow-sm">
                             <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500">
+                                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500 bg-slate-50">
                                     Ticket ID
                                 </th>
                                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500">
                                     Channel
+                                </th>
+                                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500">
+                                    Amount
                                 </th>
                                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500">
                                     Days Open
@@ -230,16 +233,19 @@ export default function DashboardPage() {
                                     Issue
                                 </th>
                                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500">
-                                    Amount
+                                    Priority
                                 </th>
                                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500">
-                                    Priority
+                                    Present Stage
                                 </th>
                                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500">
                                     Stage
                                 </th>
                                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500">
-                                    Action
+                                    Days In Stage
+                                </th>
+                                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500">
+                                    Status
                                 </th>
                                 <th className="relative px-6 py-3">
                                     <span className="sr-only">Edit</span>
@@ -281,13 +287,13 @@ export default function DashboardPage() {
                                             {dispute.channel}
                                         </td>
                                         <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-500">
+                                            ₹{dispute.amount.toLocaleString()}
+                                        </td>
+                                        <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-500">
                                             {dispute.daysOpen} days
                                         </td>
                                         <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-500">
                                             {dispute.issueCategory}
-                                        </td>
-                                        <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-500">
-                                            ₹{dispute.amount.toLocaleString()}
                                         </td>
                                         <td className="whitespace-nowrap px-6 py-4">
                                             <span
@@ -310,13 +316,18 @@ export default function DashboardPage() {
                                             </span>
                                         </td>
                                         <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-500">
-                                            <div className="flex flex-col">
-                                                <span>{dispute.stage}</span>
-                                                <span className="text-xs text-slate-400">{dispute.presentStage}</span>
+                                            <div className="max-w-xs truncate" title={dispute.presentStage}>
+                                                {dispute.presentStage}
                                             </div>
                                         </td>
                                         <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-500">
-                                            {dispute.recommendedAction}
+                                            {dispute.stage}
+                                        </td>
+                                        <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-500">
+                                            {dispute.daysInPresentStage}
+                                        </td>
+                                        <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-500">
+                                            {dispute.status}
                                         </td>
                                         <td className="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
                                             {dispute.status !== 'Resolved' && (

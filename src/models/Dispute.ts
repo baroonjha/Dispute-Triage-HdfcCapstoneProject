@@ -6,7 +6,7 @@ export interface IDispute extends Document {
     amount: number;
     issueCategory: string;
     channel: string;
-    status: 'Open' | 'Closed' | 'Resolved';
+    status: string;
     priority: 'L0' | 'L1' | 'L2' | 'L3' | 'Resolved';
     stage: string;
     presentStage?: string;
@@ -26,7 +26,6 @@ const DisputeSchema: Schema = new Schema(
         channel: { type: String, required: true },
         status: {
             type: String,
-            enum: ['Open', 'Closed', 'Resolved'],
             default: 'Open',
         },
         priority: {
