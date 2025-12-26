@@ -68,6 +68,15 @@ export default function ChatbotPage() {
 
             const data = await res.json();
 
+            if (res.status === 429) {
+                // Force user to end chat or try again later
+                setMessages((prev) => [
+                    ...prev,
+                    { role: 'assistant', content: '⚠️ System is busy (High Traffic). Please try again in a minute or use "Raise Dispute" below.' },
+                ]);
+                return;
+            }
+
             if (data.error) {
                 throw new Error(data.error);
             }
@@ -120,6 +129,11 @@ export default function ChatbotPage() {
                 body: JSON.stringify({ history: messages }),
             });
 
+            if (res.status === 429) {
+                // Handle quota exceeded specifically
+                throw new Error('Quota exceeded');
+            }
+
             if (!res.ok) throw new Error('Extraction failed');
 
             const data = await res.json();
@@ -131,9 +145,10 @@ export default function ChatbotPage() {
                 description: '',
             });
             setShowDisputeForm(true);
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error extracting details:', error);
             setExtractionError(true);
+
             // Show form with empty details (but valid defaults) and error flag
             setDisputeDetails({
                 amount: '',

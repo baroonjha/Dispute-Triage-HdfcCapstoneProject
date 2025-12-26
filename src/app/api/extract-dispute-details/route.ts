@@ -3,9 +3,9 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const API_KEY = process.env.GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(API_KEY || '');
-const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest): Promise<NextResponse> {
     try {
         if (!API_KEY) {
             return NextResponse.json(
@@ -55,8 +55,15 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json(extractedDetails);
 
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error extracting dispute details:', error);
+        // Handle Quota Exceeded (429) specifically
+        if (error.message?.includes('429') || error.status === 429) {
+            return NextResponse.json(
+                { error: 'System is busy (Quota Exceeded). Please try manually.' },
+                { status: 429 }
+            );
+        }
         return NextResponse.json(
             { error: 'Failed to extract details' },
             { status: 500 }

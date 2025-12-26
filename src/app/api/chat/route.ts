@@ -11,7 +11,7 @@ if (!API_KEY) {
 }
 
 const genAI = new GoogleGenerativeAI(API_KEY || '');
-const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 const embeddingModel = genAI.getGenerativeModel({ model: 'text-embedding-004' });
 
 // Fallback context if RAG fails or is not configured
@@ -35,9 +35,11 @@ You are a Bank Dispute Resolution Assistant. Use the following policy to answer 
 Answer the user's question based on this context. Be polite and professional.
 `;
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest): Promise<NextResponse> {
+    console.log('----- [DEBUG] HIT CHAT API -----');
     try {
         if (!API_KEY) {
+            console.error('[DEBUG] NO API KEY');
             return NextResponse.json(
                 { error: 'Gemini API Key not configured' },
                 { status: 500 }
@@ -93,6 +95,11 @@ export async function POST(req: NextRequest) {
         }
 
         let chatHistory = history || [];
+        // Limit history to last 10 messages to avoid hitting token limits
+        if (chatHistory.length > 10) {
+            chatHistory = chatHistory.slice(-10);
+        }
+
         const geminiHistory = chatHistory
             .map((msg: any) => ({
                 role: msg.role === 'assistant' ? 'model' : 'user',
@@ -109,9 +116,17 @@ export async function POST(req: NextRequest) {
 
         const prompt = `Context: ${context}\n\nUser Question: ${message}\n\nAnswer:`;
 
+        console.log('----- [DEBUG] SENDING TO GEMINI -----');
+        console.log('User Message:', message);
+        console.log('Prompt sent:', prompt);
+
         const result = await chat.sendMessage(prompt);
         const response = result.response;
         const text = response.text();
+
+        console.log('----- [DEBUG] RECEIVED FROM GEMINI -----');
+        console.log('Response text:', text);
+        console.log('----------------------------------------');
 
         // Check for escalation triggers
         const lowerMsg = message.toLowerCase();
@@ -127,8 +142,17 @@ export async function POST(req: NextRequest) {
             shouldEscalate,
             usedRAG,
         });
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error in Chat API:', error);
+
+        // Handle Quota Exceeded (429) specifically
+        if (error.message?.includes('429') || error.status === 429) {
+            return NextResponse.json(
+                { error: 'System is busy (Quota Exceeded). Please try again later.' },
+                { status: 429 }
+            );
+        }
+
         return NextResponse.json(
             { error: 'Internal Server Error' },
             { status: 500 }
